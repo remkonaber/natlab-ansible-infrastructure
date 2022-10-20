@@ -1,0 +1,12 @@
+#
+# Task: Set netif for LXC on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+# Set netif using pct
+- name: Set netif using pct
+  ansible.builtin.command:
+    cmd: "pct set {{ node.vmid }} {{ node.netif2 }}" # TODO: Only works for netif2
+  register: pct_output
+  changed_when: false

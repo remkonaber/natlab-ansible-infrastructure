@@ -1,0 +1,8 @@
+# Tasks: Setting up a Debian LXC
+#
+# @author Remko Naber
+#
+
+- name: Set up a Debian LXC
+  ansible.builtin.include_tasks: lxc_basic.ansible.yml
+  when: nodetype == "basic"

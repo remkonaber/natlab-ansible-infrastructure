@@ -1,0 +1,28 @@
+#
+# Task: Create basic LXC container on Proxmox
+#
+# @author Remko Naber
+#
+
+- name: Create LXC VM
+  community.general.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ natlab_user_password }}"
+
+    node: "{{ proxmox_node }}"
+    vmid: "{{ node.vmid }}"
+    hostname: "{{ node.hostname }}"
+    unprivileged: true
+    state: present
+
+    description: "Node {{ node_name }} LXC"
+    pubkey: "{{ natlab_user_ssh_key }}"
+
+    ostemplate: "{{ lxc_ostemplate }}"
+    disk: local-lvm:2 # Basically storage and 2 GB disk
+    memory: 1024
+    swap: 512
+    netif: "{{ node.netif }}"
+    features:
+      - nesting=1 # This ensures the container actually runs faster then a snail

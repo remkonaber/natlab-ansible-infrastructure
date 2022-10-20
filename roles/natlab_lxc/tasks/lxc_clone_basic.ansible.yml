@@ -1,0 +1,26 @@
+#
+# Task: Clone basic LXC container on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Clone LXC VM from template
+  community.general.proxmox:
+    api_host: "{{ proxmox_api_host }}"
+    api_user: "{{ proxmox_api_user }}"
+    api_password: "{{ natlab_user_password }}"
+
+    node: pve
+    vmid: "{{ node.vmid }}"
+    hostname: "{{ node.hostname }}"
+    unprivileged: true
+    state: present
+
+    description: "Node {{ node_name }} LXC"
+    pubkey: "{{ natlab_user_ssh_key }}"
+
+    clone: "{{ hostvars['template_node']['vmid'] }}"
+    storage: local-lvm
+    netif: "{{ node.netif }}"
+    features:
+      - nesting=1 # This ensures the container actually runs faster then a snail
