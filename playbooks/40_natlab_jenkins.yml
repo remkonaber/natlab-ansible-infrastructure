@@ -1,0 +1,35 @@
+#
+# Playbook: Setting up Jenkins CI on LXC
+#
+# @author Remko Naber
+#
+- name: Create the JenkinsLXC
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Importing natlab_jenkins
+      ansible.builtin.import_role:
+        name: natlab_jenkins
+        tasks_from: main.ansible.yml
+      vars:
+        node: "{{ hostvars['jenkins'] }}"
+
+# - name: Install Java on JenkinsLXC
+#   hosts: jenkins
+#   tasks:
+#     - name: Update apt cache
+#       ansible.builtin.apt:
+#         update_cache: true
+
+#     - name: Use geerlingguy.java to install Java
+#       ansible.builtin.import_role:
+#         name: geerlingguy.java
+
+# - name: Install Jenkins on LXC
+#   hosts: jenkins
+#   tasks:
+#     - name: Use geerlingguy.jenkins to install Jenkins
+#       ansible.builtin.import_role:
+#         name: geerlingguy.jenkins
+#       vars:
+#         jenkins_hostname: jenkins.localdomain.localdomain
