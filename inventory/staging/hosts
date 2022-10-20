@@ -1,0 +1,28 @@
+[natlab]
+pve
+jenkins
+template_node
+
+[nodes:children]
+basic_nodes
+clone_basic_nodes
+nat_nodes
+open_nodes
+
+[basic_nodes]
+Alice
+Bob
+; Carol
+; Dan
+; Erin
+; Frank
+; Grace
+; Heidi
+
+[clone_basic_nodes]
+Carol
+Dan
+
+[nat_nodes]
+
+[open_nodes]
