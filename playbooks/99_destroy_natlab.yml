@@ -1,0 +1,80 @@
+#
+# Playbook: Destroying Natlab on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+# This playbook destroys the NATLab - Here be dragons!
+#
+# Notes:
+#
+# - Running this play does nothing by default, every play has tag "never".
+# - Use individual tags to destroy  individual sections.
+# - Use the tag "complete" for complete destruction.
+
+# Destroy Jenkins LXC
+- name: Destroying Jenkins LXC
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Remove Jenkins LXC
+      ansible.builtin.include_role:
+        name: destroy_natlab
+        tasks_from: destroy_jenkins.ansible.yml
+      vars:
+        node: "{{ hostvars['jenkins'] }}"
+  tags:
+    - natlab_jenkins
+    - complete
+    - never
+
+# Destroy LXC nodes
+- name: Destroying LXC nodes
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: "Destroy LXC node"
+      ansible.builtin.include_role:
+        name: destroy_natlab
+        tasks_from: destroy_lxc.ansible.yml
+      loop: "{{ groups['nodes'] | reverse | list }}"
+      loop_control:
+        loop_var: nodename
+      vars:
+        node: "{{ hostvars[nodename] }}"
+  tags:
+    - natlab_lxc
+    - complete
+    - never
+
+# Destroy LXC Template
+- name: Destroying LXC template
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Remove LXC template
+      ansible.builtin.include_role:
+        name: destroy_natlab
+        tasks_from: destroy_template.ansible.yml
+      vars:
+        node: "{{ hostvars['template_node'] }}"
+  tags:
+    - natlab_lxc_template
+    - complete
+    - never
+
+# Destroy PVE users and roles
+- name: Destroying PVE users and roles
+  hosts: pve
+  gather_facts: false
+  vars:
+    ansible_user: root
+  tasks:
+    - name: Remove PVE users and roles
+      ansible.builtin.import_role:
+        name: destroy_natlab
+        tasks_from: main.ansible.yml
+  tags:
+    - natlab_pve
+    - complete
+    - never
