@@ -1,0 +1,14 @@
+#
+# host_vars: template_node
+#
+# @author Remko Naber
+# 
+
+ansible_host: 192.168.1.248
+ansible_user: root
+
+node_name: TheOne
+
+vmid: 248
+hostname: template.localdomain.localdomain
+netif: '{"net0":"name=eth0,gw=192.168.1.254,ip=192.168.1.248/24,bridge=vmbr0"}'
