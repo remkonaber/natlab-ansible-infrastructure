@@ -1,0 +1,5 @@
+# Ignore Ansible Galaxy roles
+roles/galaxy/
+
+# Ignore vscode settings (for now)
+.vscode/
