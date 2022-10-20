@@ -1,0 +1,28 @@
+#
+# Task: Removing user "natlab@pam" from Proxmox PVE
+#
+# @author Remko Naber
+#
+
+# Remove natlab@pam user from Proxmox
+- name: Check user needs to be removed
+  ansible.builtin.command: pveum user list --output-format yaml
+  register: pveum_output
+  changed_when: false
+
+- name: Remove user "natlab@pam"
+  ansible.builtin.command:
+    cmd: pveum user delete natlab@pam
+  when: "'natlab@pam' in pveum_output.stdout"
+
+# Remove natlab-administrator role from Proxmox
+- name: Check if role needs to be removed
+  ansible.builtin.command:
+    cmd: pveum role list --output-format yaml
+  register: pveum_output
+  changed_when: false
+
+- name: Remove role "natlab-administrator"
+  ansible.builtin.command:
+    cmd: pveum role delete natlab-administrator
+  when: "'natlab-administrator' in pveum_output.stdout"

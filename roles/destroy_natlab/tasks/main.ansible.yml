@@ -1,0 +1,17 @@
+#
+# Tasks: Destroying Natlab on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Remove users and roles from PVE
+  ansible.builtin.import_tasks: destroy_natlab_pve.ansible.yml
+  tags:
+    - full
+    - pve
+
+- name: Remove natlab user
+  ansible.builtin.import_tasks: destroy_natlab_user.ansible.yml
+  tags:
+    - full
+    - user

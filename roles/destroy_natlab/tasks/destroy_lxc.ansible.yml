@@ -1,0 +1,15 @@
+#
+# Task: Destroy LXC container on Proxmox
+#
+# @author Remko Naber
+#
+
+- name: Stop LXC node
+  ansible.builtin.include_role:
+    name: natlab_lxc
+    tasks_from: lxc_stop.ansible.yml
+
+- name: Remove LXC node
+  ansible.builtin.include_role:
+    name: natlab_lxc
+    tasks_from: lxc_remove.ansible.yml

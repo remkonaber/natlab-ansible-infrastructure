@@ -1,0 +1,9 @@
+#
+# Task: Destroy all CTs and VMS
+#
+# @author Remko Naber
+
+# TODO: Possibly stop all jobs?
+
+- name: Remove Jenkins LXC
+  ansible.builtin.include_tasks: destroy_lxc.ansible.yml

@@ -1,0 +1,10 @@
+#
+# Task: Removing "natlab" user from Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Remove natlab user
+  ansible.builtin.user:
+    name: natlab
+    remove: true

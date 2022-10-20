@@ -1,0 +1,8 @@
+#
+# Task: Destroy LXC container on Proxmox
+#
+# @author Remko Naber
+#
+
+- name: Remove the LXC template
+  ansible.builtin.include_tasks: destroy_lxc.ansible.yml
