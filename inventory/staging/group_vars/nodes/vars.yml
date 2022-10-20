@@ -1,0 +1,7 @@
+#
+# group_vars: nodes
+#
+# @author Remko Naber
+# 
+
+ansible_user: root
