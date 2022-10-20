@@ -1,0 +1,11 @@
+#
+# host_vars: Node Alice
+#
+# @author Remko Naber
+# 
+
+ansible_host: 192.168.1.201
+
+vmid: 201
+hostname: node201.localdomain.localdomain
+netif: '{"net0":"name=eth0,gw=192.168.1.254,ip=192.168.1.201/24,bridge=vmbr0"}'
