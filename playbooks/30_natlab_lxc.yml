@@ -1,0 +1,60 @@
+#
+# Playbook: Setting up standard containers on Natlab on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Setting up LXC containers
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Create the LXCs
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: main.ansible.yml
+      loop: "{{ groups['basic_nodes'] }}"
+      loop_control:
+        loop_var: node_name
+      vars:
+        nodetype: basic
+        node: "{{ hostvars[node_name] }}"
+
+- name: Setting up LXC containers using the template
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Clone template, create LXC
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_clone_basic.ansible.yml
+      loop: "{{ groups['clone_basic_nodes'] }}"
+      loop_control:
+        loop_var: node_name
+      vars:
+        nodetype: clone_basic
+        node: "{{ hostvars[node_name] }}"
+    - name: Fix network
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_netif.ansible.yml
+      loop: "{{ groups['clone_basic_nodes'] }}"
+      loop_control:
+        loop_var: node_name
+      vars:
+        node: "{{ hostvars[node_name] }}"
+        ansible_user: root
+
+- name: Starting LXC containers
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Start the LXCs
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_start.ansible.yml
+      loop: "{{ groups['nodes'] }}"
+      loop_control:
+        loop_var: nodename
+      vars:
+        nodetype: basic
+        node: "{{ hostvars[nodename] }}"
