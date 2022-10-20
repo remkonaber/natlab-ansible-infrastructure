@@ -1,0 +1,35 @@
+#
+# Task: Add user "natlab@pam" on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+# Add natlab@pam user to Proxmox
+- name: Check user needs to be added to PVE
+  ansible.builtin.command:
+    cmd: pveum user list --output-format yaml
+  register: pveum_output
+  changed_when: false
+
+- name: Add user to pve
+  ansible.builtin.command:
+    cmd: pveum user add natlab@pam -comment "natlab setup user"
+  when: "'natlab@pam' not in pveum_output.stdout"
+
+# Add natlab-administrator role to Proxmox
+- name: Check if role needs to be added to PVE
+  ansible.builtin.command:
+    cmd: pveum role list --output-format yaml
+  register: pveum_output
+  changed_when: false
+
+- name: Add natlab-administrator Role to Proxmox
+  ansible.builtin.command:
+    cmd: pveum role add natlab-administrator -privs "{{ natlab_privileges }}"
+  when: "'natlab-administrator' not in pveum_output.stdout"
+
+# Give the privileges to natlab@pam
+- name: Give natlab@pam natlab-administrator privileges
+  ansible.builtin.command:
+    cmd: pveum aclmod / -user natlab@pam -role natlab-administrator
+  changed_when: false

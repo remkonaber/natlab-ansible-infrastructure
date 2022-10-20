@@ -1,0 +1,14 @@
+#
+# Task: Set up NATLab on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Create user "natlab"
+  ansible.builtin.import_tasks: natlab_user_create.ansible.yml
+
+- name: Install software needed for user "natlab"
+  ansible.builtin.import_tasks: natlab_software.ansible.yml
+
+- name: Give user "natlab@pam" PVE privileges
+  ansible.builtin.import_tasks: natlab_user_pve.ansible.yml

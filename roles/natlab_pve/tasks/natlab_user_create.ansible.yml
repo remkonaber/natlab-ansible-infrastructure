@@ -1,0 +1,16 @@
+#
+# Task: Create "natlab" user
+#
+# @author Remko Naber
+#
+
+- name: Create natlab user
+  ansible.builtin.user:
+    name: natlab
+    shell: /bin/bash
+    password: "{{ natlab_user_password_salted }}"
+
+- name: Add SSH key
+  ansible.posix.authorized_key:
+    user: natlab
+    key: "{{ natlab_user_ssh_key }}"

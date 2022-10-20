@@ -1,0 +1,9 @@
+#
+# Task: Install user software for the "natlab" user
+#
+# @author Remko Naber
+#
+
+- name: Install proxmoxer using PIP
+  ansible.builtin.pip:
+    name: proxmoxer

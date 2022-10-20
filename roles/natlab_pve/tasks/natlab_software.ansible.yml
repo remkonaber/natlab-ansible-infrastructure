@@ -1,0 +1,13 @@
+#
+# Task: Install system software packages
+#
+# @author Remko Naber
+#
+
+- name: Install Python pip
+  ansible.builtin.apt:
+    pkg: python3-pip
+
+- name: Install Python virtualenv
+  ansible.builtin.apt:
+    pkg: python3-virtualenv
