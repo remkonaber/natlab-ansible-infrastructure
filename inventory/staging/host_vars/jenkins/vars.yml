@@ -1,0 +1,14 @@
+#
+# host_vars: Jenkins CI/CD
+#
+# @author Remko Naber
+# 
+
+ansible_host: 192.168.1.249
+ansible_user: root
+
+node_name: Jenkins
+
+vmid: 249
+hostname: jenkins.localdomain.localdomain
+netif: '{"net0":"name=eth0,gw=192.168.1.249,ip=192.168.1.249/24,bridge=vmbr0"}'
