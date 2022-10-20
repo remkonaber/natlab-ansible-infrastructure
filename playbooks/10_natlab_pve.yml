@@ -1,0 +1,25 @@
+#
+# Playbook: Setting up NATLab basics on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Setting up basics on a Proxmox PVE server
+  hosts: pve
+  gather_facts: false
+  vars:
+    ansible_user: root
+  tasks:
+    - name: Create "natlab" user in Debian and Proxmox PVE
+      ansible.builtin.import_role:
+        name: natlab_pve
+        tasks_from: main.ansible.yml
+
+- name: Setting up software for user "natlab"
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Set up software for user "natlab"
+      ansible.builtin.import_role:
+        name: natlab_pve
+        tasks_from: natlab_user_software.ansible.yml
