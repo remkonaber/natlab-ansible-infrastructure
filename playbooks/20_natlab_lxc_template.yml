@@ -1,0 +1,55 @@
+#
+# Playbook: Setting up a LXC template
+#
+# @author Remko Naber
+#
+
+# Set up
+- name: Setting up LXC template node
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Create basic LXC node
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_basic.ansible.yml
+    - name: Start the LXC template node
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_start.ansible.yml
+  vars:
+    node: "{{ hostvars['template_node'] }}"
+    node_name: template_node
+
+# Provision
+- name: Provisioning the LXC template node
+  hosts: template_node
+  gather_facts: false
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        msg: Insert the provisioning role here
+
+# Stop
+- name: Stopping the LXC template node
+  hosts: pve
+  gather_facts: false
+  tasks:
+    - name: Stop LXC template node
+      ansible.builtin.include_role:
+        name: natlab_lxc
+        tasks_from: lxc_stop.ansible.yml
+      vars:
+        node: "{{ hostvars['template_node'] }}"
+
+# Convert to template
+- name: Converting LXC container into a template
+  hosts: pve
+  gather_facts: false
+  vars:
+    ansible_user: root
+  tasks:
+    - name: Convert to template
+      ansible.builtin.command:
+        cmd: "pct template {{ hostvars['template_node'].vmid }}"
+      changed_when: false # TODO: Check if it worked?
