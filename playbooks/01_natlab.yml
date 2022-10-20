@@ -1,0 +1,25 @@
+#
+# Playbook: Setting up NATLab on Proxmox PVE
+#
+# @author Remko Naber
+#
+
+- name: Setting up Proxmox PVE
+  ansible.builtin.import_playbook: 10_natlab_pve.yml
+  tags:
+    - natlab_pve
+
+- name: Setting up LXC template
+  ansible.builtin.import_playbook: 20_natlab_lxc_template.yml
+  tags:
+    - natlab_lxc_template
+
+- name: Setting up LXC nodes
+  ansible.builtin.import_playbook: 30_natlab_lxc.yml
+  tags:
+    - natlab_lxc
+
+- name: Setting up Jenkins on a LXC node
+  ansible.builtin.import_playbook: 40_natlab_jenkins.yml
+  tags:
+    - natlab_jenkins
