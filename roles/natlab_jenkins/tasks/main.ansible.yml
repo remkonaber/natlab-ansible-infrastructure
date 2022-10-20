@@ -1,0 +1,8 @@
+#
+# Tasks: Setting up Jenkins on a Debian LXC
+#
+# @author Remko Naber
+#
+
+- name: Setting up Jenkins on a Debian LXC
+  ansible.builtin.include_tasks: jenkins_lxc.ansible.yml
