@@ -1,0 +1,32 @@
+#
+# group_vars: natlab
+#
+# @author Remko Naber
+# 
+
+proxmox_api_host: 192.168.1.200
+proxmox_api_user: natlab@pam
+proxmox_node: pve
+
+natlab_user_password: "{{ vault_natlab_user_password }}"
+natlab_user_password_salted: "{{ vault_natlab_user_password_debian11_salted }}"
+natlab_user_ssh_key: "{{ vault_natlab_user_ssh_key }}"
+
+natlab_privileges: >
+  VM.Allocate
+  VM.Clone
+  VM.Config.CDROM
+  VM.Config.CPU
+  VM.Config.Cloudinit
+  VM.Config.Disk
+  VM.Config.HWType
+  VM.Config.Memory
+  VM.Config.Network
+  VM.Config.Options
+  VM.Monitor
+  VM.Audit
+  VM.PowerMgmt
+  Datastore.AllocateSpace
+  Datastore.Audit
+
+lxc_ostemplate: 'local:vztmpl/debian-11-standard_11.3-1_amd64.tar.zst'
