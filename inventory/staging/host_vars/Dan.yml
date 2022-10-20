@@ -1,0 +1,12 @@
+#
+# host_vars: Node Dan
+#
+# @author Remko Naber
+# 
+
+ansible_host: 192.168.1.204
+
+vmid: 204
+hostname: node204.localdomain.localdomain
+netif: '{"net0":"name=eth0,gw=192.168.1.254,ip=192.168.1.204/24,bridge=vmbr0"}'
+netif2: -net0 name=eth0,gw=192.168.1.254,ip=192.168.1.204/24,bridge=vmbr0
